@@ -28,7 +28,7 @@ public class ProductDAOImpl implements ProductDAO {
     @Transactional
     public boolean save(Product product) {
         try {
-          entityManager.persist(product);
+          entityManager.merge(product);
           return true;
         } catch (Exception exception){
             exception.printStackTrace();

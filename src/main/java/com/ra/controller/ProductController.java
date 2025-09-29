@@ -1,5 +1,7 @@
 package com.ra.controller;
 
+import com.ra.model.dto.ProductRequestDTO;
+import com.ra.model.dto.ProductResponseDTO;
 import com.ra.model.entity.Category;
 import com.ra.model.entity.Product;
 import com.ra.service.CategoryService;
@@ -8,12 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class ProductController {
     }
     @GetMapping("/add")
     public String add(Model model){
-        Product product = new Product();
+        ProductRequestDTO product = new ProductRequestDTO();
         model.addAttribute("product",product);
         // lay danh sach danh muc
         List<Category> categories = categoryService.getAllCategories();
@@ -40,7 +38,7 @@ public class ProductController {
         return "add";
     }
     @PostMapping("/add")
-    public String create(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,Model model){
+    public String create(@Valid @ModelAttribute("product") ProductRequestDTO product, BindingResult bindingResult, Model model){
         // validate
         if (bindingResult.hasErrors()){
             // lay danh sach danh muc
@@ -54,5 +52,30 @@ public class ProductController {
             return "redirect:/products";
         }
         return "add";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id){
+        if(productService.delete(id)){
+            return "redirect:/products";
+        }
+        return "error";
+    }
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") int id, Model model){
+        ProductResponseDTO product = productService.findById(id);
+        model.addAttribute("product",product);
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("categories",categories);
+        return "edit";
+    }
+    @PostMapping("/edit/{id}")
+    public String update(@PathVariable("id") int id,
+                         @ModelAttribute("product") ProductRequestDTO product,
+                         Model model){
+        if (productService.update(product,id)){
+            return "redirect:/products";
+        }
+        return "error";
     }
 }

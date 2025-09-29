@@ -13,11 +13,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "product_name",length = 100,nullable = false,unique = true)
-    @NotBlank(message = "Ten danh muc bat buoc phai nhap")
-    @Unique(message = "Ten san pham da ton tai")
     private String productName;
     @Column(name = "product_price",columnDefinition = "double check(product_price >0)",nullable = false)
-    @Min(value = 1,message = "Gia san pham phai lon hon 0")
     private double productPrice;
     @Column(name = "description",columnDefinition = "text")
     private String description;

@@ -27,7 +27,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center text-danger">Them moi san pham</h1>
+    <h1 class="text-center text-danger">cap nhat san pham</h1>
     <div class="col-lg-8">
         <f:form method="post" action="" modelAttribute="product" enctype="multipart/form-data">
             <div class="form-group">
@@ -44,7 +44,9 @@
                 <label for="">Lua chon danh muc</label>
                     <f:select class="form-control" path="category.id" id="">
                       <c:forEach items="${categories}" var="category">
-                          <option value="${category.id}">${category.categoryName}</option>
+                          <option value="${category.id}"
+                              ${category.id == product.category.id ? "selected" : ""}>
+                                  ${category.categoryName}</option>
                       </c:forEach>
 
                     </f:select>
@@ -57,9 +59,9 @@
             <div class="form-group">
                 <label>Anh </label>
                 <input type="file" class="form-control" name="image" />
-
+                <img src="${product.urlImage}" width="150px">
             </div>
-            <button type="submit" class="btn btn-primary">Them moi</button>
+            <button type="submit" class="btn btn-primary">Cap nhat</button>
         </f:form>
     </div>
 </div>

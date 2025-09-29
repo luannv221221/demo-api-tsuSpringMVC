@@ -42,7 +42,10 @@
                 <td>${product.productPrice}</td>
                 <td>${product.category.categoryName}</td>
                 <td><img src="${product.image}" style="width: 150px"/></td>
-                <td></td>
+                <td>
+                    <a class="btn btn-primary" href="products/edit/${product.id}">Edit</a>
+                    <a class="btn btn-danger" onclick="return confirm('Ban chac chan chu')" href="products/delete/${product.id}">Delete</a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
